@@ -1,103 +1,82 @@
 package main;
 
-import modell.Jatek;
-import modell.Ranglista;
+import java.awt.event.KeyEvent;
+import java.awt.event.KeyListener;
+
+import gfx.Window;
+
 
 public class Main {
 
     /**
      * Ennyi tick van egy masodperc alatt, jatek kozben nem valtoztathato
      */
-    private static int tickPerSecond = 60;
+    static int tickPerSecond = 60;
 
     public static int getTicksPerSecond() {
         return tickPerSecond;
     }
-
-    /**
-     * Tick parancs vegrehajtasa
-     *
-     * @param cmd parancs es argumentumok
-     */
-    public static void parancsTick(String[] cmd) {
-        if (cmd.length < 2) {
-            System.out.println("Tul keves parameter");
-            return;
-        }
-        try {
-            int beolvas = Integer.parseInt(cmd[1]);
-			// Az exception nem erre van, de ha m�r egyszer van
-            // catch a parseInt miatt, hasznaljuk azt
-            if (beolvas < 3 || beolvas > 100) {
-                throw new Exception();
-            }
-            // Csak akkor valtoztatunk, ha ertelmes szamot kapunk
-            tickPerSecond = beolvas;
-        } catch (Exception ex) {
-            System.out.println("Ervenytelen szam( 3..100 kozotti integer legyen! )");
-        }
+    
+    Window window;
+    int menupont;
+    static final int MENUMERET = 3;
+    
+    
+    Main(){
+    	window = new Window(640, 480);
+    	menupont = 0;
+    	
+    	
+    }
+    
+    void draw(){
+    	
+    	
+    	window.swapBuffers();
     }
 
-    /**
-     * Jatek parancs vegrehajtasa
-     *
-     * @param cmd parancs es argumentumok
-     */
-    public static void parancsJatek(String[] cmd) {
-        if (cmd.length < 2) {
-            System.out.println("Tul keves parameter");
-            return;
-        }
-        try {
-            int jatekosnum = Integer.parseInt(cmd[1]);
-			// Az exception nem erre van, de ha m�r egyszer van
-            // catch a parseInt miatt, hasznaljuk azt
-            if (jatekosnum < 1 || jatekosnum > 4) {
-                throw new Exception();
-            }
+    void run(){
 
-            String palya = null;
-            if (cmd.length >= 3) {
-                palya = cmd[2];
-            }
+    	boolean exit = false;
 
-            Jatek jatek = new Jatek(palya, jatekosnum);
-
-            // 100 mp-ig tart egy jatek
-            jatek.futtat(100);
-
-        } catch (Exception ex) {
-            System.out.println("Ervenytelen szam( 1..4 kozotti integer legyen! )");
-            System.out.println(ex.getClass().getName() + ": " + ex.getMessage());
-        }
+    	while(!exit){
+    		draw();
+    		if( fel )
+    			menupont += MENUMERET-1;
+    		if( le )
+    			menupont ++;
+    		menupont %= MENUMERET;
+    		
+    		if( enter )
+    			switch( menupont )
+    			{
+					case 0: 
+						jatek(); 
+						break;
+					case 1: 
+						ranglista(); 
+						break;
+					default: 
+						exit = true; 
+						break;
+    			}
+    		
+    	}
+    	
+    	
     }
-
+    
+    void ranglista(){
+    	new Ranglista().megjelenit();
+    }
+   
+    void jatek(){
+    //	new Jatek...().megjelenit(frame);
+    }
+    
     public static void main(String[] args) {
-
-        String line;
-        String cmd[] = null;
-    	System.out.print("main>");
-        while ((line = Input.getLine()) != null) {
-
-            cmd = line.toUpperCase().split(" ");
-
-            if (cmd[0].equals("JATEK")) {
-                parancsJatek(cmd);
-            }
-
-            if (cmd[0].equals("TICK")) {
-                parancsTick(cmd);
-            }
-
-            if (cmd[0].equals("RANGLISTA")) {
-                new Ranglista().megjelenit();
-            }
-
-            if (cmd[0].equals("EXIT")) {
-                break;
-            }
-        };
-
+    	
+    	new Main().run();
     }
 
 }

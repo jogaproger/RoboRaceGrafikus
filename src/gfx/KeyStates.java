@@ -14,23 +14,55 @@ import java.awt.event.KeyListener;
  */
 public class KeyStates implements KeyListener {
 
-    private boolean states[];
+	/**
+	 * Maximum nagysagu keycode, amit meg tarolunk
+	 */
+	static final int MAXKC = 1024;
+	
+	/**
+	 * Billentyuk allapotai virtual keyode alapjan
+	 */
+    private boolean states[] = new boolean[MAXKC];
+ 
+    /**
+     * keyTyped event megvalositasa
+     * @param e Event 
+     */
     @Override
     public void keyTyped(KeyEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    /**
+     * keyPressed event megvalositasa
+     * @param e Event 
+     */
     @Override
     public void keyPressed(KeyEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    	int kc = e.getKeyCode();
+    	if( 0 <= kc && kc < 256 )
+    		states[kc] = true;
     }
 
+    /**
+     * keyReleased event megvalositasa
+     * @param e Event 
+     */
     @Override
     public void keyReleased(KeyEvent e) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    	int kc = e.getKeyCode();
+    	if( 0 <= kc && kc < 256 )
+    		states[kc] = false;
     }
-    public boolean getKeyState(int kcode){
-    return true;
+    
+    /**
+     * Lekeredezi az adott billentyu allapotat
+     * @param kc A billentyu kodja ( KeyEvent.VK_ ... )
+     * @return
+     */
+    public boolean getKeyState(int kc ){
+    	if( 0 <= kc && kc < 256 )
+    		return states[kc];
+    	return false;
     }
     
 }

@@ -1,5 +1,6 @@
 package modell;
 
+import main.Input;
 import modell.jatekobj.Robot;
 import modell.palya.Irany;
 import modell.palya.Sebesseg;
@@ -41,7 +42,8 @@ public class Jatekos {
     }
     
     public void commitPont(Ranglista r) {
-    	r.commit(nev, pontszam);
+    	System.out.print(sorszam+". jatekos neve:");
+    	r.commit(Input.getLine(), pontszam);
     }
 
     public void iranyit(Irany i) {

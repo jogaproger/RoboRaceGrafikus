@@ -6,23 +6,34 @@
 package gfx;
 
 import java.awt.Graphics;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 /**
  *
  * @author Patricia
  */
 public class Scene {
-    //private Map<int,List<SceneElem>> elems;
+    private Map<Integer,List<SceneElem>> elems = 
+    			new TreeMap<Integer,List<SceneElem>>();
     
-    public void add(SceneElem s, int layer){
-        
+    public void add(SceneElem se, int layer){
+        if( elems.containsKey(layer) )
+        	elems.put(layer, new LinkedList<SceneElem>());
+        elems.get(layer).add(se);
     }
     
-    public void remove(SceneElem s){
-        
+    public void remove(SceneElem se){
+        for( List<SceneElem> list : elems.values() )
+        	list.remove(se);        	
+
     }
     
     public void draw(Graphics g){
-        
+        for( List<SceneElem> list : elems.values() )
+        	for( SceneElem se : list )
+        		se.draw(g);
     }
 }

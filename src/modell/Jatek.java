@@ -116,10 +116,12 @@ public class Jatek {
 	                for (Jatekos jatekos : jatekosok) {
 	                    String line;
 	                    String cmd[] = null;
-	                    System.out.println(jatekos.getSorszam() + ".jatekos>");
+	                    System.out.println();
 	
 	                    // Jatekosonkent adhatunk akarhany parancsot:
-	                    while ((line = Input.getLine()) != null) {
+	                    while (
+	                    		(line = Input.getLine(jatekos.getSorszam() + ".jatekos>")) 
+	                    			!= null) {
 	                        cmd = line.toUpperCase().split(" ");
 	                      
 	                        if (cmd[0].equals("IRANYIT")) {

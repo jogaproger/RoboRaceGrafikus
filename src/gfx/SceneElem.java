@@ -13,7 +13,7 @@ import java.awt.Graphics;
  */
 abstract class SceneElem {
     public boolean visible;
-    private Scene scene;
+    protected Scene scene;
     
-    public void draw(Graphics g){}
+    public abstract void draw(Graphics g);
 }
