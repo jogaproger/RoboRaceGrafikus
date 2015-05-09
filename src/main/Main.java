@@ -1,23 +1,27 @@
 package main;
 
 import java.awt.event.KeyEvent;
+import java.awt.image.BufferedImage;
 
 import modell.Jatek;
 import modell.Ranglista;
 import gfx.KeyStates;
-import java.awt.LayoutManager;
-import java.awt.LayoutManager2;
+
+import java.awt.Color;
+import java.awt.Graphics;
+
 import gfx.Window;
+
 import java.io.File;
+
+import javax.imageio.ImageIO;
 import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.SpringLayout;
 
 public class Main {
 
@@ -25,23 +29,76 @@ public class Main {
      * Ennyi tick van egy masodperc alatt nem valtoztathato
      */
     static final int tickPerSecond = 30;
-
-    Window window;
-    int menupont;
+    /**
+     * Ablak meretei
+     */
+    static final int WIDTH = 640, HEIGHT = 480;
+    
+    /**
+     * Ennyi menupont van
+     */
     static final int MENUMERET = 3;
-
+    
+    /**
+     * Ablak, amelyikre rajzolunk
+     */
+    Window window;
+    
+    /**
+     * Ez a menupont van kivalasztva [0, MENUMERET)
+     */
+    int menupont=0;
+    
+    /**
+     * Menupontok kepei
+     */
+    private BufferedImage[][] menupic;
+   
+    
     public static int getTicksPerSecond() {
         return tickPerSecond;
     }
 
     Main() {
-        window = new Window(640, 480);
+        window = new Window(WIDTH, HEIGHT);
         menupont = 0;
+        menupic = new BufferedImage[MENUMERET][2];
+		for( int i = 0 ; i < MENUMERET ; i++ )
+    	{
+    		String path = System.getProperty("user.dir") + "/kepek/";
+    		try{
+	    		menupic[i][0] = ImageIO.read(new File( path + "menu"+i+"off.png" ));
+    		} catch(Exception ex) {
+    			System.out.println( "skipping image..." );
+    			menupic[i][0] = new BufferedImage(100, 10, BufferedImage.TYPE_INT_RGB);
+    		}
+    		try{
+	    		menupic[i][1] = ImageIO.read(new File( path + "menu"+i+"on.png" ));
+    		} catch(Exception ex) {
+    			System.out.println( "skipping image..." );
+    			menupic[i][1] = new BufferedImage(100, 10, BufferedImage.TYPE_INT_RGB);
+    		}
+    	}
+            	
+        
     }
 
     void draw() {
 
-        window.swapBuffers();
+    	Graphics g = window.getBackbufferGraphics();
+    	
+    	g.setColor(Color.BLACK);
+    	g.fillRect(0, 0, WIDTH, HEIGHT);
+    	
+    	for( int i = 0 ; i < MENUMERET ; i++ )
+    	{
+    		BufferedImage pic = 
+    				menupic[i][menupont == i ? 1 : 0];
+    		int y = 100 + i * 100;
+    		int x = WIDTH / 2 - pic.getWidth()/2;
+    		g.drawImage(pic, x, y, null);
+    	}
+    	window.swapBuffers();
     }
 
     void run() {
@@ -77,18 +134,23 @@ public class Main {
     		}
     		
     	}
+    	window.close();
+    	
     }
 
     void ranglista() {
         	(new Ranglista()).megjelenit(window);
     }
-
+    /**
+     * Jatek kezdese
+     */
     void jatek() {
         String palya;
         String[] nevek;
         int jatekosszam;
+        // Felugro ablakok
         try {
-            File mappa = new File(System.getProperty("user.dir") + "\\palyak");
+            File mappa = new File(System.getProperty("user.dir") + "/palyak");
             String palyak[] = mappa.list();
             palya = (String) JOptionPane.showInputDialog(null,
                     "Valassz palyat!",
@@ -144,8 +206,13 @@ public class Main {
     }
 
     public static void main(String[] args) {
-
-        new Main().run();
+    	try{
+    		(new Main()).run();
+    	}catch( Exception ex )
+    	{
+    		ex.printStackTrace();
+    		System.out.println(ex.getMessage());
+    	}
     }
 
 }

@@ -2,7 +2,6 @@ package modell;
 
 import java.util.ArrayList;
 
-import main.Input;
 import main.Main;
 import modell.jatekobj.JatekObj;
 import modell.jatekobj.Robot;
@@ -119,7 +118,7 @@ public class Jatek {
 	                    System.out.println();
 	
 	                    // Jatekosonkent adhatunk akarhany parancsot:
-	                    while (
+	                 /*   while (
 	                    		(line = Input.getLine(jatekos.getSorszam() + ".jatekos>")) 
 	                    			!= null) {
 	                        cmd = line.toUpperCase().split(" ");
@@ -162,7 +161,7 @@ public class Jatek {
 	                        {
 	                        	System.out.println("Ervenytelen parancs");
 	                        }
-	                    }
+	                    }*/
 	                }
 	            }
 	            // Minden jatekobjektum viselkedesenek megvalositasa
