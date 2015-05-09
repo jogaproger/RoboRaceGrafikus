@@ -22,7 +22,20 @@ public class KeyStates implements KeyListener {
 	/**
 	 * Billentyuk allapotai virtual keyode alapjan
 	 */
-    private boolean states[] = new boolean[MAXKC];
+    private boolean states[] = new boolean[MAXKC+1];
+    
+    public enum Change{ NONE, PUSHED, RELEASED };
+
+    /**
+	 * Billentyuk valtozasai virtual keyode alapjan
+	 */
+    private Change changes[][] = new Change[2][MAXKC+1];
+    /**
+     * Ket buffer van:
+     *  active - amibe a valtozasokat mentjuk
+     *  a masik - amit a kliens olvas
+     */
+    private int active = 0;
  
     /**
      * keyTyped event megvalositasa
@@ -38,9 +51,13 @@ public class KeyStates implements KeyListener {
      */
     @Override
     public void keyPressed(KeyEvent e) {
-    	int kc = e.getKeyCode();
-    	if( 0 <= kc && kc < 256 )
-    		states[kc] = true;
+    	synchronized(this){
+	    	int kc = e.getKeyCode();
+	    	if( 0 <= kc && kc < MAXKC ){
+	    		states[kc] = true;
+	    		changes[active][kc] = Change.PUSHED;
+	    	}
+    	}
     }
 
     /**
@@ -49,9 +66,13 @@ public class KeyStates implements KeyListener {
      */
     @Override
     public void keyReleased(KeyEvent e) {
-    	int kc = e.getKeyCode();
-    	if( 0 <= kc && kc < 256 )
-    		states[kc] = false;
+    	synchronized(this){
+	    	int kc = e.getKeyCode();
+	    	if( 0 <= kc && kc < MAXKC ){
+	    		states[kc] = false;
+				changes[active][kc] = Change.RELEASED;
+		    }
+    	}
     }
     
     /**
@@ -60,9 +81,23 @@ public class KeyStates implements KeyListener {
      * @return
      */
     public boolean getKeyState(int kc ){
-    	if( 0 <= kc && kc < 256 )
+    	if( 0 <= kc && kc < MAXKC )
     		return states[kc];
     	return false;
+    }
+    
+    /**
+     * Valtozasok lekerdezese az utolso pullChanges ota
+     * @param kc A billentyu kodja ( KeyEvent.VK_ ... )
+     * @return
+     */
+    public Change[] pullChanges(){
+    	synchronized(this){
+	    	active = 1-active;
+	    	for( int i = 0 ; i < MAXKC ; i++ )
+	    		changes[active][i] = Change.NONE;
+    	}
+    	return changes[1-active];
     }
     
 }

@@ -1,5 +1,7 @@
 package modell;
 
+import gfx.Window;
+
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -119,7 +121,7 @@ public class Ranglista {
         }
 	}
 
-	public void megjelenit() {
+	public void megjelenit(Window window) {
 		load();
     	for( int i = 0 ; i < 10 ; i++ )
     		System.out.format( "%3d. %10s %d%n", 

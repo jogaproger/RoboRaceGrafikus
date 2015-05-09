@@ -45,13 +45,13 @@ public class Jatek {
      */
     private int kezdoIndex;
 
-    public Jatek(String palyafajl, int jatekosnum) {
-        ujJatek(palyafajl, jatekosnum);
+    public Jatek(String palyafajl, String[] jatekosnevek ) {
+        ujJatek(palyafajl, jatekosnevek);
     }
 
-    public void ujJatek(String palyafajl, int jatekosnum) {
+    public void ujJatek(String palyafajl, String[] jatekosnevek ) {
 
-        jatekosok = new Jatekos[jatekosnum];
+        jatekosok = new Jatekos[jatekosnevek.length];
         objects = new ArrayList<JatekObj>();
         kezdoIndex = 0;
 
@@ -60,8 +60,8 @@ public class Jatek {
             palya.szerkeszt();
         }
 
-        for (int i = 0; i < jatekosnum; i++) {
-            jatekosok[i] = new Jatekos("Nev" + (1 + i), this, 1 + i);
+        for (int i = 0; i < jatekosnevek.length; i++) {
+            jatekosok[i] = new Jatekos(jatekosnevek[i], this, 1 + i);
         }
     }
 
