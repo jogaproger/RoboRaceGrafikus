@@ -20,20 +20,23 @@ public class Scene {
     			new TreeMap<Integer,List<SceneElem>>();
     
     public void add(SceneElem se, int layer){
-        if( elems.containsKey(layer) )
-        	elems.put(layer, new LinkedList<SceneElem>());
-        elems.get(layer).add(se);
+    	List<SceneElem> list =  elems.get(layer);
+    	
+        if( list == null )
+        	elems.put(layer, list = new LinkedList<SceneElem>());
+        
+        list.add(se);
     }
     
     public void remove(SceneElem se){
         for( List<SceneElem> list : elems.values() )
-        	list.remove(se);        	
-
+        	list.remove(se);     
     }
     
     public void draw(Graphics g){
         for( List<SceneElem> list : elems.values() )
         	for( SceneElem se : list )
-        		se.draw(g);
+        		if(se.visible)
+        			se.draw(g);
     }
 }

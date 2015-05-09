@@ -57,11 +57,11 @@ public class Palya {
     /**
      * Palya betoltese fajlbol
      *
-     * @param fajl Fajl neve
+     * @param fajl Fajl neve kiterjesztessel egyutt a palyak mappabol
      * @return Sikeres volt-e a beolvasas
      */
     public boolean betolt(String fajl) {
-        File file = new File(System.getProperty("user.dir") + "/palyak/" + fajl + ".txt");
+        File file = new File(System.getProperty("user.dir") + "/palyak/" + fajl );
         Scanner scanner = null;
         try {
             scanner = new Scanner(file);

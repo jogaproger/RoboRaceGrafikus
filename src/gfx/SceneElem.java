@@ -11,7 +11,7 @@ import java.awt.Graphics;
  *
  * @author Patricia
  */
-abstract class SceneElem {
+public abstract class SceneElem {
     public boolean visible;
     protected Scene scene;
     

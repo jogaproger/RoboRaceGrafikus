@@ -1,6 +1,9 @@
 package modell.jatekobj;
 
 
+import gfx.ImageInstance;
+import gfx.Resource;
+import gfx.Scene;
 import modell.Jatek;
 import modell.Jatekos;
 import modell.palya.Cella;
@@ -34,9 +37,10 @@ public class Robot extends AbstractRobot {
     /**
      * Default konstruktor
      */
-    public Robot(Jatekos jatekos, Jatek jatek) {
-        super(jatek);
-
+    public Robot(Jatekos jatekos, Jatek jatek, int sorszam) {
+        super(jatek, Resource.getImage( "kepek/robot"+
+        		((sorszam-1)%4+1)+
+        		".png" ));
         ragacsnum = olajnum = 3;
         seb = new Sebesseg();
         this.jatekos = jatekos;
@@ -137,4 +141,10 @@ public class Robot extends AbstractRobot {
         if( allapot != RobotAllapot.HALOTT )
         	c.add(this);
     }
+
+	@Override
+	public void addToScene(Scene scene) {
+		scene.add(img, 4);
+	}
+
 }

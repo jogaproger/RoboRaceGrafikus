@@ -1,5 +1,6 @@
 package modell.jatekobj;
 
+import gfx.Scene;
 import modell.Jatek;
 import modell.palya.Cella;
 import modell.visitors.JOVisitor;
@@ -35,11 +36,19 @@ public abstract class JatekObj {
         cella = c;
         c.add(this);
     }
-
+	/**
+	 * Visitor fogadasa
+	 * @param visitor
+	 */
     public abstract void accept(JOVisitor visitor);
 
     public abstract String getAzon();
 
     public abstract void info();
+	/**
+	 * Hozzaadas a jelenethez
+	 * @param scene A jelenet
+	 */
+	public abstract void addToScene(Scene scene);
 
 }

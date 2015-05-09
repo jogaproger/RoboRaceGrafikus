@@ -12,6 +12,15 @@ public class Cella {
     private int y;
     private ArrayList<JatekObj> o;
     private Palya palya;
+    
+    /**
+     * Egyszeru koordinatapar
+     */
+    public class Pos{ public int x, y; public Pos(int x, int y){this.x=x;this.y=y;} };
+    
+    public Pos getPos(){
+    	return new Pos( 15 + x * 50, 15 + y * 50 );   	
+    }
 
     Cella(Palya p, int x, int y) {
 

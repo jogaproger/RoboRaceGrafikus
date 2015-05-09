@@ -1,10 +1,14 @@
 package modell.jatekobj;
 
+import gfx.ImageInstance;
+import gfx.Resource;
+import gfx.Scene;
 import main.Main;
+import modell.palya.Cella;
 
 public class Olaj extends Folt {
 
-	
+	ImageInstance img = new ImageInstance( Resource.getImage("kepek/olaj.png") );
 	static final double eletMP = 10;
 	
     /**
@@ -13,12 +17,19 @@ public class Olaj extends Folt {
     public Olaj() {
     }
 
-    /**
-     * Semmit nem csinal
-     */
     public void simulate() {
         elet -= 100/(eletMP*Main.getTicksPerSecond()) ;
         super.simulate();
+        if( cella == null ){
+        	img.visible = false;
+        }
+        else
+        {
+        	img.visible = true;
+        	Cella.Pos p = cella.getPos();
+        	img.x = p.x;
+        	img.y = p.y;
+        }
     }
 
     /**
@@ -32,5 +43,10 @@ public class Olaj extends Folt {
     public String getAzon() {
         return "O ";
     }
+
+	@Override
+	public void addToScene(Scene scene) {
+		scene.add(img, 2);
+	}
 
 }

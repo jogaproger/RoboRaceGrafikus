@@ -1,12 +1,15 @@
 package modell.jatekobj;
 
+import gfx.Resource;
+import gfx.Scene;
 import modell.palya.Cella;
 import modell.visitors.TakaritoVisitor;
 
 public class KisRobot extends AbstractRobot {
 
+	
 	public KisRobot() {
-		super(null);
+		super(null, Resource.getImage("kepek/kisrobot.png"));
 	}
 
 	@Override
@@ -39,6 +42,11 @@ public class KisRobot extends AbstractRobot {
 	@Override
 	public String getAzon() {
 		return "KR";
+	}
+
+	@Override
+	public void addToScene(Scene scene) {
+		scene.add(img, 3);
 	}
 
 

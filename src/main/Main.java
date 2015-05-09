@@ -6,6 +6,7 @@ import java.awt.image.BufferedImage;
 import modell.Jatek;
 import modell.Ranglista;
 import gfx.KeyStates;
+import gfx.Resource;
 
 import java.awt.Color;
 import java.awt.Graphics;
@@ -28,7 +29,7 @@ public class Main {
     /**
      * Ennyi tick van egy masodperc alatt nem valtoztathato
      */
-    static final int tickPerSecond = 30;
+    static final int ticksPerSecond = 30;
     /**
      * Ablak meretei
      */
@@ -54,10 +55,30 @@ public class Main {
      */
     private BufferedImage[][] menupic;
    
+    public static long lastTime = System.currentTimeMillis();
+    public static void SyncTime(){
+    	long dt = 1000 / ticksPerSecond;
+    	
+    	while( System.currentTimeMillis() < lastTime + dt )
+    		;
+    	
+    	lastTime = System.currentTimeMillis();
+    }
     
     public static int getTicksPerSecond() {
-        return tickPerSecond;
+        return ticksPerSecond;
     }
+
+    /**
+     * Hibauzenet kuldese
+     * @param message hibauzenet
+     */
+    public static void ErrorMessage(String message) {
+		JOptionPane.showMessageDialog(null, 
+				message,
+				"Hiba!", 
+				JOptionPane.INFORMATION_MESSAGE);
+	}
 
     Main() {
         window = new Window(WIDTH, HEIGHT);
@@ -66,18 +87,8 @@ public class Main {
 		for( int i = 0 ; i < MENUMERET ; i++ )
     	{
     		String path = System.getProperty("user.dir") + "/kepek/";
-    		try{
-	    		menupic[i][0] = ImageIO.read(new File( path + "menu"+i+"off.png" ));
-    		} catch(Exception ex) {
-    			System.out.println( "skipping image..." );
-    			menupic[i][0] = new BufferedImage(100, 10, BufferedImage.TYPE_INT_RGB);
-    		}
-    		try{
-	    		menupic[i][1] = ImageIO.read(new File( path + "menu"+i+"on.png" ));
-    		} catch(Exception ex) {
-    			System.out.println( "skipping image..." );
-    			menupic[i][1] = new BufferedImage(100, 10, BufferedImage.TYPE_INT_RGB);
-    		}
+	    	menupic[i][0] = Resource.getImage( path + "menu"+i+"off.png" );
+	    	menupic[i][1] = Resource.getImage( path + "menu"+i+"on.png" );
     	}
             	
         
@@ -192,9 +203,14 @@ public class Main {
                         num++;
                     }
                 }
-
-                Jatek j = new Jatek(palya, nevek);
-                j.futtat(120);
+                
+                try{
+	                Jatek j = new Jatek(palya, nevek);
+	                j.futtat(120, window);
+                }catch(Exception ex){
+                	ErrorMessage( ex.getMessage() );
+                	ex.printStackTrace();
+                }
 
             }
         } catch (NullPointerException e) {
@@ -205,13 +221,13 @@ public class Main {
 
     }
 
-    public static void main(String[] args) {
+	public static void main(String[] args) {
     	try{
     		(new Main()).run();
     	}catch( Exception ex )
     	{
     		ex.printStackTrace();
-    		System.out.println(ex.getMessage());
+    		ErrorMessage(ex.getMessage());
     	}
     }
 

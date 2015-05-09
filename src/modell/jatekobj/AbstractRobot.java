@@ -1,5 +1,8 @@
 package modell.jatekobj;
 
+import java.awt.image.BufferedImage;
+
+import gfx.ImageInstance;
 import main.Main;
 import modell.Jatek;
 import modell.palya.Cella;
@@ -8,6 +11,7 @@ import modell.visitors.JOVisitor;
 
 public abstract class AbstractRobot extends JatekObj {
 
+	protected ImageInstance img;
     /**
      * Robot allapotat leiro belso enumeracio
      */
@@ -43,14 +47,17 @@ public abstract class AbstractRobot extends JatekObj {
     double totalUgrasIdoSec = 1;
     
 
-    public AbstractRobot(Jatek jatek) {
+    public AbstractRobot(Jatek jatek, BufferedImage bimg) {
     	super(jatek);
+    	img = new ImageInstance(bimg);
+    	img.visible = true;
         seb = new Sebesseg();
         allapot = RobotAllapot.ALLO;
     }
     
-    public AbstractRobot() {
+    public AbstractRobot(BufferedImage bimg) {
     	super(null);
+    	this.img = new ImageInstance(bimg);
         seb = new Sebesseg();
         allapot = RobotAllapot.ALLO;
     }
@@ -59,6 +66,7 @@ public abstract class AbstractRobot extends JatekObj {
      * Robot elpusztitasa
      */
     public void kill() {
+    	img.visible = false;
         allapot = RobotAllapot.HALOTT;
     }
 
@@ -79,8 +87,13 @@ public abstract class AbstractRobot extends JatekObj {
      */
     public void simulate() {
     	
+    	Cella.Pos pos = null, pos2 = null;
+    	
         switch (allapot) {
             case ALLO:
+            	pos = cella.getPos();
+            	img.x = pos.x;
+            	img.y = pos.y;
                 if (!seb.isNulla()) {
                     ugrik(seb);
                 }
@@ -92,6 +105,12 @@ public abstract class AbstractRobot extends JatekObj {
                 break;
             case UGRO:
                 ugrasidoTick++;
+                double t = (double)ugrasidoTick / ( totalUgrasIdoSec * Main.getTicksPerSecond());
+                pos = forras.getPos();
+                pos2 = cel.getPos();
+                img.x = (int) (pos.x * (1-t) + pos2.x * t);
+                img.y = (int) (pos.y * (1-t) + pos2.y * t);
+                
                 if (ugrasidoTick > totalUgrasIdoSec * Main.getTicksPerSecond()) {
                     erkezik(cel);
                     if( allapot == RobotAllapot.UGRO )
@@ -103,6 +122,9 @@ public abstract class AbstractRobot extends JatekObj {
                 break;
 
         }
+        
+        
+        
     }
 
 	/**
@@ -137,4 +159,6 @@ public abstract class AbstractRobot extends JatekObj {
                 break;
         }
     }
+   
+    
 }
