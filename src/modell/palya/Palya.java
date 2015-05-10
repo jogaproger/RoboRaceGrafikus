@@ -288,7 +288,6 @@ public class Palya {
     }
 
     public void info() {
-        System.out.println("Palya:");
         String elvalaszto = "";
         for (int num = 0; num < (this.szelesseg * 3) + 1; num++) {
             elvalaszto += "-";
@@ -328,7 +327,6 @@ public class Palya {
 
 
 	public void kisrobot() {
-		System.out.println("Kisrobot majdnem majdnem letrehozva");	
 		Random random = new Random();
 		
 		for( int j = 0 ; j < 100 ; j++ )
@@ -348,7 +346,6 @@ public class Palya {
      * @return palyan vannak-e a koordinatak
      */
 	public boolean kisrobot(int x, int y) {
-		System.out.println("Kisrobot majdnem letrehozva");	
 		if( x < 0 || y < 0 || x >= szelesseg || y >= magassag )
 			return false;
 		

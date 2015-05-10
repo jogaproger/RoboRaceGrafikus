@@ -1,5 +1,6 @@
 package modell;
 
+import gfx.KeyStates;
 import gfx.Resource;
 import gfx.Window;
 
@@ -143,10 +144,14 @@ public class Ranglista {
     		g.drawString(""+lista[i].pont, 400, y);
     	}
     	window.swapBuffers();
+    	KeyStates.Change[] changes = window.getKeyStates().pullChanges();
     	while( !(
-    			window.getKeyStates().getKeyState(KeyEvent.VK_ENTER) || 
-    			window.getKeyStates().getKeyState(KeyEvent.VK_ESCAPE)
+    			changes[KeyEvent.VK_ENTER] == KeyStates.Change.PUSHED ||
+    			changes[KeyEvent.VK_ESCAPE] == KeyStates.Change.PUSHED
     			))
-    		;
+    	{
+    		changes = window.getKeyStates().pullChanges();
+    		window.swapBuffers();
+    	}
     }
 }

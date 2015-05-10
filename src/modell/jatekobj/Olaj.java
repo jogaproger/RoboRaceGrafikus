@@ -9,7 +9,7 @@ import modell.palya.Cella;
 public class Olaj extends Folt {
 
 	ImageInstance img = new ImageInstance( Resource.getImage("kepek/olaj.png") );
-	static final double eletMP = 10;
+	static final double eletMP = 15;
 	
     /**
      * Default konstruktor
@@ -25,7 +25,11 @@ public class Olaj extends Folt {
         }
         else
         {
-        	img.visible = true;
+        	if( elet < 20 )
+        		img.visible = (((int)elet) % 2 == 0);
+        	else
+        		img.visible = true;
+        	
         	Cella.Pos p = cella.getPos();
         	img.x = p.x;
         	img.y = p.y;

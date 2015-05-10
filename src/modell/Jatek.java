@@ -131,7 +131,8 @@ public class Jatek {
 	        	if( changes[KeyEvent.VK_P] == KeyStates.Change.PUSHED )
 	        		pause(window);
 	        	
-	        	if( (tick+1) % (30 * Main.getTicksPerSecond()) == 0 )
+	        	if( (tick-(10 * Main.getTicksPerSecond())) % 
+	        			  (20 * Main.getTicksPerSecond()) == 0 )
 	        		palya.kisrobot();
 	        	
 	        	Main.SyncTime();
@@ -144,7 +145,7 @@ public class Jatek {
 	            for (JatekObj jobj : objects) {
 	                jobj.simulate();
 	            }
-	            draw(window);
+	            draw(window, tick / (double)(Main.getTicksPerSecond()), jatekidoSec);
 	        }
 
             commitPontok();
@@ -166,18 +167,25 @@ public class Jatek {
 		
 	}
 
-	private void draw(Window window) {
+	private void draw(Window window, double time, double maxtime) {
 		Graphics g = window.getBackbufferGraphics();
 
 		g.drawImage( bg, 0, 0, null );
 		scene.draw(g);
 		
 		g.setColor(Color.BLACK);
-		g.setFont( Resource.getFont( 20 ) );
+		g.setFont( Resource.getFont( 15 ) );
+		
+		int sec = (int) (maxtime - time);
+		int min = sec/60;
+		sec -= 60*min;
+		
+		g.drawString("Hatralevo ido: " + min + ":"+((sec/10)%10)+(sec%10),
+				480, 30);
 		
 		for( int i = 0 ; i < jatekosok.length ; i++ )
 		{
-			int y = 30 + i*30;
+			int y = 60 + i*30;
 			g.drawString(jatekosok[i].getNev(), 480, y);
 			g.drawString(""+jatekosok[i].getPont(), 600, y);
 		}

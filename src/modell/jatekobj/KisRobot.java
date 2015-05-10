@@ -7,6 +7,7 @@ import modell.visitors.TakaritoVisitor;
 
 public class KisRobot extends AbstractRobot {
 
+	int var = 0;
 	/**
 	 * KisRobot inicializalasa
 	 */
@@ -41,12 +42,15 @@ public class KisRobot extends AbstractRobot {
 			TakaritoVisitor tv = new TakaritoVisitor();
 			cella.accept( tv );
 			
-			if( !tv.takaritott )
+			var++;
+			if( !tv.takaritott && var > 15  )
 			{
+				var = 0;
 				Cella kov = cella.keresFolt();
 				if( kov != null && kov != cella)
 					ugrik( kov );		
 			}
+
 		}
 	}
 	/**
