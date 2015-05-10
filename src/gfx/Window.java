@@ -2,6 +2,8 @@ package gfx;
 
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 
 import javax.swing.JFrame;
@@ -43,9 +45,14 @@ public class Window extends JFrame {
 	}
 	
 	public Graphics getBackbufferGraphics(){
-		if( backbuffer == null )
-			throw new NullPointerException("backbuffer");
-		return backbuffer.getGraphics();
+		Graphics g = backbuffer.getGraphics();
+		
+		Graphics2D g2d = (Graphics2D) g;
+		if( g2d != null )
+			g2d.setRenderingHint(RenderingHints.KEY_TEXT_ANTIALIASING,
+				RenderingHints.VALUE_TEXT_ANTIALIAS_ON);
+		
+		return g;
 	}
 	
 	public void swapBuffers(){

@@ -1,7 +1,12 @@
 package modell;
 
+import gfx.Resource;
 import gfx.Window;
 
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.event.KeyEvent;
+import java.awt.image.BufferedImage;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -123,11 +128,25 @@ public class Ranglista {
 
 	public void megjelenit(Window window) {
 		load();
-    	for( int i = 0 ; i < 10 ; i++ )
-    		System.out.format( "%3d. %10s %d%n", 
-    				new Integer(i+1), 
-    				lista[i].nev, 
-    				new Integer( lista[i].pont )
-    			);
+    	Graphics g = window.getBackbufferGraphics();
+    	
+    	g.setColor(Color.BLACK);
+    	g.fillRect(0, 0, window.getWidth(), window.getWidth());
+    	
+    	g.setColor(Color.WHITE);
+    	g.setFont(Resource.getFont(20));
+    	
+    	for( int i = 0 ; i < count ; i++ )
+    	{
+    		int y = 40 + i*40;
+    		g.drawString(""+(i+1)+".:"+lista[i].nev, 100, y);
+    		g.drawString(""+lista[i].pont, 400, y);
+    	}
+    	window.swapBuffers();
+    	while( !(
+    			window.getKeyStates().getKeyState(KeyEvent.VK_ENTER) || 
+    			window.getKeyStates().getKeyState(KeyEvent.VK_ESCAPE)
+    			))
+    		;
     }
 }
