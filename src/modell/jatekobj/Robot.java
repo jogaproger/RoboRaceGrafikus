@@ -147,4 +147,8 @@ public class Robot extends AbstractRobot {
 		return 4;
 	}
 
+	public Sebesseg getSebesseg() {
+		return seb;
+	}
+
 }

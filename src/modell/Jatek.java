@@ -1,11 +1,13 @@
 package modell;
 
+import gfx.KeyStates;
 import gfx.Resource;
 import gfx.Scene;
 import gfx.Window;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
@@ -113,19 +115,30 @@ public class Jatek {
     	try{
 	        System.out.println("Jatek kezdes:");
 	        int skipnum = 0;
+	        
+	        KeyStates keystates = window.getKeyStates();
+	        keystates.pullChanges();
 	
 	        for (
         		int tick = 0;
         		!endflag && tick < jatekidoSec * Main.getTicksPerSecond(); 
         		tick++) 
 	        {
+	        	KeyStates.Change[] changes = keystates.pullChanges();       
+	        	if( changes[KeyEvent.VK_ESCAPE] == KeyStates.Change.PUSHED )
+	        		kilepes();
+	        	
+	        	if( changes[KeyEvent.VK_P] == KeyStates.Change.PUSHED )
+	        		pause(window);
+	        	
 	        	if( (tick+1) % (30 * Main.getTicksPerSecond()) == 0 )
 	        		palya.kisrobot();
+	        	
 	        	Main.SyncTime();
 	            if ( --skipnum <= 0) {
 
 	                for (Jatekos jatekos : jatekosok)
-		                jatekos.iranyit(window.getKeyStates());
+		                jatekos.iranyit(keystates, tick);
 	            }
 	            // Minden jatekobjektum viselkedesenek megvalositasa
 	            for (JatekObj jobj : objects) {
@@ -141,11 +154,34 @@ public class Jatek {
     	}
     }
 
-    private void draw(Window window) {
+    private void pause(Window window) {
+		Graphics g = window.getBackbufferGraphics();
+		BufferedImage img = Resource.getImage("kepek/pause.png");
+		
+		g.drawImage(img, 40, 40, null);
+		window.swapBuffers();
+		while( window.getKeyStates().pullChanges()[KeyEvent.VK_P] 
+				!= KeyStates.Change.PUSHED );
+		
+		
+	}
+
+	private void draw(Window window) {
 		Graphics g = window.getBackbufferGraphics();
 
 		g.drawImage( bg, 0, 0, null );
 		scene.draw(g);
+		
+		g.setColor(Color.BLACK);
+		g.setFont( Resource.getFont( 20 ) );
+		
+		for( int i = 0 ; i < jatekosok.length ; i++ )
+		{
+			int y = 30 + i*30;
+			g.drawString(jatekosok[i].getNev(), 480, y);
+			g.drawString(""+jatekosok[i].getPont(), 600, y);
+		}
+		
 		window.swapBuffers();		
     }
 

@@ -12,6 +12,7 @@ import modell.palya.Sebesseg;
  */
 public class Jatekos {
 
+	private int locked = -1, lo=-1, lr=-1;
 	/**
      * Jatekos pontszama
      */
@@ -72,23 +73,32 @@ public class Jatekos {
     	r.commit(nev, pontszam);
     }
 
-    public void iranyit(KeyStates keyStates) {
+    public void iranyit(KeyStates keyStates, int tick) {
+   		
         if( keyStates.getKeyState(kiosztas[0]) )
-        	iranyit(Irany.Fel);
+        	iranyit(Irany.Fel, tick);
         if( keyStates.getKeyState(kiosztas[1]) )
-        	iranyit(Irany.Le);
+        	iranyit(Irany.Le, tick);
         if( keyStates.getKeyState(kiosztas[2]) )
-        	iranyit(Irany.Jobbra);
+        	iranyit(Irany.Jobbra, tick);
         if( keyStates.getKeyState(kiosztas[3]) )
-        	iranyit(Irany.Balra);
+        	iranyit(Irany.Balra, tick);
         if( keyStates.getKeyState(kiosztas[4]) )
-        	lerakRagacs();
+        	lerakRagacs(tick);
         if( keyStates.getKeyState(kiosztas[5]) )
-        	lerakOlaj();
+        	lerakOlaj(tick);
     }
 
-    private void iranyit(Irany irany) {
+    private void iranyit(Irany irany, int tick) {
+    	
+    	if( locked > 0 && tick != locked && tick < locked + 10 )
+    		return;
+    	
 		robot.iranyit(irany);		
+		if( robot.getSebesseg().isNulla() )
+			locked = tick;
+		else
+			locked = -1;
 	}
 
 	public void iranyit(Sebesseg seb) {
@@ -98,19 +108,48 @@ public class Jatekos {
         }
     }
 
+	/**
+	 * Jatekos sorszama
+	 * @return a sorszam
+	 */
     public int getSorszam() {
         return sorszam;
     }
 
-    public void lerakOlaj() {
+    /**
+     * Olaj lerakasa
+     * @param tick adott tick
+     */
+    public void lerakOlaj(int tick) {
+    	if( lo > 0 && tick < lo+10 )
+    		return;
+    	lo = tick;
         robot.lerakOlaj();
     }
 
-    public void lerakRagacs() {
+    /**
+     * Ragacs lerakasa
+     * @param tick Adott tick
+     */
+    public void lerakRagacs(int tick) {
+    	if( lr > 0 && tick < lr+10 )
+    		return;
+    	lr = tick;
         robot.lerakRagacs();
     }
+    /**
+     * Robot infojának kiírása
+     */
     public void robotInfo(){
         robot.info();
     }
+
+	public String getNev() {
+		return nev;
+	}
+
+	public int getPont() {
+		return pontszam;
+	}
 
 }
