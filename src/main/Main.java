@@ -54,8 +54,14 @@ public class Main {
      * Menupontok kepei
      */
     private BufferedImage[][] menupic;
-   
+    
+    /**
+     * Idoszinkronizalashoz a legutolso szinkronizalas ideje
+     */
     public static long lastTime = System.currentTimeMillis();
+    /**
+     * A legutolso synctime utan var, amig nem telik el adott ido
+     */
     public static void SyncTime(){
     	long dt = 1000 / ticksPerSecond;
     	
@@ -65,6 +71,10 @@ public class Main {
     	lastTime = System.currentTimeMillis();
     }
     
+    /**
+     * Masodpercenkenti tickek szama
+     * @return Masodpercenkenti tickek szama
+     */
     public static int getTicksPerSecond() {
         return ticksPerSecond;
     }

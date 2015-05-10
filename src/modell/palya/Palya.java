@@ -328,6 +328,7 @@ public class Palya {
 
 
 	public void kisrobot() {
+		System.out.println("Kisrobot majdnem majdnem letrehozva");	
 		Random random = new Random();
 		
 		for( int j = 0 ; j < 100 ; j++ )
@@ -347,9 +348,11 @@ public class Palya {
      * @return palyan vannak-e a koordinatak
      */
 	public boolean kisrobot(int x, int y) {
+		System.out.println("Kisrobot majdnem letrehozva");	
 		if( x < 0 || y < 0 || x >= szelesseg || y >= magassag )
 			return false;
 		
+		System.out.println("Kisrobot letrehozva");		
 		create(x,y,new KisRobot());
 		return true;
 	}

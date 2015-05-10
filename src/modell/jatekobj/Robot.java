@@ -143,8 +143,8 @@ public class Robot extends AbstractRobot {
     }
 
 	@Override
-	public void addToScene(Scene scene) {
-		scene.add(img, 4);
+	protected int getLayer() {
+		return 4;
 	}
 
 }

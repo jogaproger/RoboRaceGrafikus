@@ -1,10 +1,12 @@
 package modell;
 
+import gfx.Resource;
 import gfx.Scene;
 import gfx.Window;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 
 import main.Main;
@@ -19,7 +21,10 @@ import modell.palya.Sebesseg;
  *
  */
 public class Jatek {
-
+	/**
+	 * Háttérkép
+	 */
+	BufferedImage bg = Resource.getImage("kepek/gbg.png");
     /**
      * Jatekosok tombje
      */
@@ -114,6 +119,8 @@ public class Jatek {
         		!endflag && tick < jatekidoSec * Main.getTicksPerSecond(); 
         		tick++) 
 	        {
+	        	if( (tick+1) % (30 * Main.getTicksPerSecond()) == 0 )
+	        		palya.kisrobot();
 	        	Main.SyncTime();
 	            if ( --skipnum <= 0) {
 
@@ -127,8 +134,7 @@ public class Jatek {
 	            draw(window);
 	        }
 
-            for (Jatekos jatekos : jatekosok)
-            	jatekos.commitPont(new Ranglista());
+            commitPontok();
 	       
     	}catch(Exception ex){
     		ex.printStackTrace();    		
@@ -137,36 +143,19 @@ public class Jatek {
 
     private void draw(Window window) {
 		Graphics g = window.getBackbufferGraphics();
-		g.setColor( Color.GRAY );
-		g.fillRect(0,  0, window.getWidth(), window.getHeight());
+
+		g.drawImage( bg, 0, 0, null );
 		scene.draw(g);
 		window.swapBuffers();		
     }
-
-	private boolean parancsKisRobot(String[] cmd) {
-    	if( cmd.length< 2 )
-    	{
-    		palya.kisrobot();
-    		return true;
-    	}	
-    	else{
-    		try {
-    			int x  = Integer.parseInt(cmd[1]);
-    			int y  = Integer.parseInt(cmd[2]);
-    			if( palya.kisrobot(x, y) )
-    				return true;
-    		} catch (Exception ex) {
-    			return false;
-            }	
-    	}
-		return false;
-	}
 
     /**
      * Pontok elkuldese a ranglistanak
      *
      */
     public void commitPontok() {
+        for (Jatekos jatekos : jatekosok)
+        	jatekos.commitPont(new Ranglista());
     }
 
 }

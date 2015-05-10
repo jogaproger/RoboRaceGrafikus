@@ -1,29 +1,39 @@
 package modell.jatekobj;
 
 import gfx.Resource;
-import gfx.Scene;
+
 import modell.palya.Cella;
 import modell.visitors.TakaritoVisitor;
 
 public class KisRobot extends AbstractRobot {
 
-	
+	/**
+	 * KisRobot inicializalasa
+	 */
 	public KisRobot() {
-		super(null, Resource.getImage("kepek/kisrobot.png"));
+		super( null, Resource.getImage("kepek/kisrobot.png"));
 	}
 
+	/**
+	 * Kisrobot erkezese egy cellara
+	 */
 	@Override
 	protected void erkezik(Cella c) {		
 		c.add(this);
 		cella = c;
 		cel = forras = null;
 	}
-
+	/**
+	 * Kisrobotra lepunk
+	 */
 	@Override
 	public void ralep(Robot r) {
 		kill();		
 	}
 	
+	/**
+	 * Kisrobot szimulacioja
+	 */
 	@Override
 	public void simulate(){
 		super.simulate();
@@ -39,14 +49,17 @@ public class KisRobot extends AbstractRobot {
 			}
 		}
 	}
+	/**
+	 * Azonosito lekerdezese
+	 */
 	@Override
 	public String getAzon() {
 		return "KR";
 	}
 
 	@Override
-	public void addToScene(Scene scene) {
-		scene.add(img, 3);
+	protected int getLayer() {
+		return 3;
 	}
 
 

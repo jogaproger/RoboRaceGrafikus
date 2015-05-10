@@ -3,6 +3,7 @@ package modell.jatekobj;
 import java.awt.image.BufferedImage;
 
 import gfx.ImageInstance;
+import gfx.Scene;
 import main.Main;
 import modell.Jatek;
 import modell.palya.Cella;
@@ -55,13 +56,6 @@ public abstract class AbstractRobot extends JatekObj {
         allapot = RobotAllapot.ALLO;
     }
     
-    public AbstractRobot(BufferedImage bimg) {
-    	super(null);
-    	this.img = new ImageInstance(bimg);
-        seb = new Sebesseg();
-        allapot = RobotAllapot.ALLO;
-    }
-
     /**
      * Robot elpusztitasa
      */
@@ -109,7 +103,9 @@ public abstract class AbstractRobot extends JatekObj {
                 pos = forras.getPos();
                 pos2 = cel.getPos();
                 img.x = (int) (pos.x * (1-t) + pos2.x * t);
-                img.y = (int) (pos.y * (1-t) + pos2.y * t);
+                img.y = (int) (pos.y * (1-t) + pos2.y * t 
+                		- 15 + 60*(t-0.5)*(t-0.5)
+                		);
                 
                 if (ugrasidoTick > totalUgrasIdoSec * Main.getTicksPerSecond()) {
                     erkezik(cel);
@@ -160,5 +156,11 @@ public abstract class AbstractRobot extends JatekObj {
         }
     }
    
+	@Override
+	public void addToScene(Scene scene) {
+		scene.add(img, this.getLayer());
+	}
+
+	protected abstract int getLayer();
     
 }
