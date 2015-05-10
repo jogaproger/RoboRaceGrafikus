@@ -26,7 +26,7 @@ public class Cella {
 
         this.x = x;
         this.y = y;
-        o = new ArrayList<>();
+        o = new ArrayList();
         this.palya = p;
 
     }
