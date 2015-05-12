@@ -1,9 +1,7 @@
 package modell.jatekobj;
 
 
-import gfx.ImageInstance;
 import gfx.Resource;
-import gfx.Scene;
 import modell.Jatek;
 import modell.Jatekos;
 import modell.palya.Cella;
@@ -77,7 +75,7 @@ public class Robot extends AbstractRobot {
     /**
      * Ragacs lerakasa
      */
-    public void lerakRagacs() {
+    public boolean lerakRagacs() {
     	
     	if( allapot == RobotAllapot.ALLO && ragacsnum>0 )
         {
@@ -85,16 +83,16 @@ public class Robot extends AbstractRobot {
     		JatekObj jo = new Ragacs();
     		cella.add(jo);
     		jatek.addJatekObj(jo);
+    		return true;
         }
-    	if( ragacsnum <= 0 )
-    		System.out.println("Nincs eleg ragacs");
-
+    	return false;
     }
 
     /**
      * Olaj lerakasa
+     * @return 
      */
-    public void lerakOlaj() {
+    public boolean lerakOlaj() {
 
     	if( allapot == RobotAllapot.ALLO && olajnum>0 )
         {
@@ -102,9 +100,9 @@ public class Robot extends AbstractRobot {
     		JatekObj jo = new Olaj();
     		cella.add(jo);
     		jatek.addJatekObj(jo);
+    		return true;
         }
-    	if( olajnum <= 0 )
-    		System.out.println("Nincs eleg olaj");
+    	return false;
     }
 
     /**
@@ -151,4 +149,10 @@ public class Robot extends AbstractRobot {
 		return seb;
 	}
 
+	public int getRagacsNum() {
+		return ragacsnum;
+	}
+	public int getOlajNum() {
+		return olajnum;
+	}
 }

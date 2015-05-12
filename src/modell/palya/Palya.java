@@ -348,8 +348,7 @@ public class Palya {
 	public boolean kisrobot(int x, int y) {
 		if( x < 0 || y < 0 || x >= szelesseg || y >= magassag )
 			return false;
-		
-		System.out.println("Kisrobot letrehozva");		
+			
 		create(x,y,new KisRobot());
 		return true;
 	}

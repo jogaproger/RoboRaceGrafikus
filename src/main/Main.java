@@ -64,8 +64,15 @@ public class Main {
      */
     public static void SyncTime(){
     	long dt = 1000 / ticksPerSecond;
+    	long target = lastTime + dt;
+
+    	while( System.currentTimeMillis() < target-2 )
+			try {
+				Thread.sleep(1);
+			} catch (InterruptedException e) {
+			}
     	
-    	while( System.currentTimeMillis() < lastTime + dt )
+    	while( System.currentTimeMillis() < target )
     		;
     	
     	lastTime = System.currentTimeMillis();

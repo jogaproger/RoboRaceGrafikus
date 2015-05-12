@@ -14,9 +14,7 @@ import java.util.ArrayList;
 import main.Main;
 import modell.jatekobj.JatekObj;
 import modell.jatekobj.Robot;
-import modell.palya.Irany;
 import modell.palya.Palya;
-import modell.palya.Sebesseg;
 
 /**
  * Jatekot megvalosito osztaly
@@ -174,7 +172,7 @@ public class Jatek {
 		scene.draw(g);
 		
 		g.setColor(Color.BLACK);
-		g.setFont( Resource.getFont( 15 ) );
+		g.setFont( Resource.getFont( 12 ) );
 		
 		int sec = (int) (maxtime - time);
 		int min = sec/60;
@@ -185,9 +183,11 @@ public class Jatek {
 		
 		for( int i = 0 ; i < jatekosok.length ; i++ )
 		{
-			int y = 60 + i*30;
-			g.drawString(jatekosok[i].getNev(), 480, y);
-			g.drawString(""+jatekosok[i].getPont(), 600, y);
+			Jatekos j = jatekosok[i];
+			int y = 60 + i*34;
+			g.drawString(j.getNev(), 480, y);
+			g.drawString(""+j.getPont(), 600, y);
+			g.drawString("Ragacs/olaj: "+j.getRagacsNum()+"/"+j.getOlajNum(), 480, y+15);
 		}
 		
 		window.swapBuffers();		

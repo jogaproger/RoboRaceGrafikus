@@ -30,11 +30,11 @@ public class Jatekos {
     	{KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_RIGHT, KeyEvent.VK_LEFT, 
     		KeyEvent.VK_NUMPAD1, KeyEvent.VK_NUMPAD2 },
         {KeyEvent.VK_W, KeyEvent.VK_S, KeyEvent.VK_D, KeyEvent.VK_A, 
-        	KeyEvent.VK_X, KeyEvent.VK_C },    	
-        {KeyEvent.VK_Z, KeyEvent.VK_H, KeyEvent.VK_J, KeyEvent.VK_G, 
-           	KeyEvent.VK_B, KeyEvent.VK_N },    	
-        {KeyEvent.VK_O, KeyEvent.VK_L, KeyEvent.VK_K, KeyEvent.VK_COLON, 
-       		KeyEvent.VK_COMMA, KeyEvent.VK_PERIOD }
+        	KeyEvent.VK_Q, KeyEvent.VK_E },    	
+        {KeyEvent.VK_T, KeyEvent.VK_G, KeyEvent.VK_H, KeyEvent.VK_F, 
+           	KeyEvent.VK_V, KeyEvent.VK_B },    	
+        {KeyEvent.VK_I, KeyEvent.VK_K, KeyEvent.VK_L, KeyEvent.VK_J, 
+       		KeyEvent.VK_U, KeyEvent.VK_O }
     };
     
     /**
@@ -123,8 +123,9 @@ public class Jatekos {
     public void lerakOlaj(int tick) {
     	if( lo > 0 && tick < lo+10 )
     		return;
-    	lo = tick;
-        robot.lerakOlaj();
+
+    	if( robot.lerakOlaj() )
+    		lo = tick;
     }
 
     /**
@@ -134,8 +135,8 @@ public class Jatekos {
     public void lerakRagacs(int tick) {
     	if( lr > 0 && tick < lr+10 )
     		return;
-    	lr = tick;
-        robot.lerakRagacs();
+    	if( robot.lerakRagacs() )
+    		lr = tick;
     }
     /**
      * Robot infojának kiírása
@@ -150,6 +151,14 @@ public class Jatekos {
 
 	public int getPont() {
 		return pontszam;
+	}
+
+	public int getRagacsNum() {
+		return robot.getRagacsNum();
+	}
+
+	public int getOlajNum() {
+		return robot.getOlajNum();
 	}
 
 }

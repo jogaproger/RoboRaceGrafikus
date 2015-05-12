@@ -1,6 +1,5 @@
 package modell.jatekobj;
 
-import main.Main;
 import modell.palya.Cella;
 import gfx.ImageInstance;
 import gfx.Resource;
