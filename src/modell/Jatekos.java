@@ -30,11 +30,11 @@ public class Jatekos {
     	{KeyEvent.VK_UP, KeyEvent.VK_DOWN, KeyEvent.VK_RIGHT, KeyEvent.VK_LEFT, 
     		KeyEvent.VK_NUMPAD1, KeyEvent.VK_NUMPAD2 },
         {KeyEvent.VK_W, KeyEvent.VK_S, KeyEvent.VK_D, KeyEvent.VK_A, 
-        	KeyEvent.VK_Q, KeyEvent.VK_E },    	
-        {KeyEvent.VK_T, KeyEvent.VK_G, KeyEvent.VK_H, KeyEvent.VK_F, 
-           	KeyEvent.VK_V, KeyEvent.VK_B },    	
+        	KeyEvent.VK_Q, KeyEvent.VK_E },    
         {KeyEvent.VK_I, KeyEvent.VK_K, KeyEvent.VK_L, KeyEvent.VK_J, 
-       		KeyEvent.VK_U, KeyEvent.VK_O }
+       		KeyEvent.VK_U, KeyEvent.VK_O },
+        {KeyEvent.VK_T, KeyEvent.VK_G, KeyEvent.VK_H, KeyEvent.VK_F, 
+           	KeyEvent.VK_R, KeyEvent.VK_Z }
     };
     
     /**
